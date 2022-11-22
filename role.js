@@ -1,9 +1,6 @@
-
 import util from 'util';
 import inquirer from 'inquirer';
 import Department from './department.js';
-
-
 
 class Roles extends Department {
     constructor(db) {
@@ -21,19 +18,19 @@ class Roles extends Department {
         const query = util.promisify(this.db.query).bind(this.db);
         try {
             const rows = await query('SELECT * FROM role');
-            console.log(rows);
+            console.table(rows);
         } catch {
             console.log("error viewing Roles")
         }
     }
+
 
     //Add a role
     async addRole() {
         await this.addRolesQuestions()
         const query = util.promisify(this.db.query).bind(this.db);
         try {
-            const rows = await query('INSERT INTO role SET ?', { id: 1, title: this.title, salary: this.salary, department_id: this.department_id });
-            console.log(rows);
+            const rows = await query('INSERT INTO role SET ?', { id: 25, title: this.title, salary: this.salary, department_id: this.department_id });
         } catch {
             console.log("error adding Role")
         }
@@ -41,12 +38,11 @@ class Roles extends Department {
 
     async addRolesQuestions() {
         const departmentList = await this.getAllDepartments();
-        console.log("all dep", departmentList)
         const questions = [
             {
                 type: 'input',
                 message: 'What is your role?',
-                name: "RoleName"
+                name: "RoleTitle"
             },
             {
                 type: 'input',
@@ -56,29 +52,26 @@ class Roles extends Department {
 
             {
                 type: 'list',
-                choices: [
-                {
-                    id: 1,
-                    name: 'Finance',
-                },
-                {
-                    id: 2,
-                    name: 'Sales',
-                  },
-
-                ] ,
-                name: "RoleDepartment"
+                message: 'What is the department for this role?',
+                choices: departmentList,
+                name: "department_name"
             },
         ]
 
         const roleName = await inquirer.prompt(questions)
-        this.title = roleName.RoleName
+        this.title = roleName.RoleTitle
         this.salary = roleName.RoleSalary
-        this.department_id = roleName.RoleDepartment
+        const selectedDepId = departmentList.filter(item => item.name === roleName.department_name)
+        this.department_id = selectedDepId[0].id
     }
+
 }
 
 export default Roles;
+
+
+
+
 
 
 
