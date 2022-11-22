@@ -14,24 +14,23 @@ class Department {
         const query = util.promisify(this.db.query).bind(this.db);
         try {
             const rows = await query('SELECT * FROM department');
-            console.log(rows);
+            console.table(rows);
         } catch {
             console.log("error viewing Departments")
         }
     }
 
-     // return all department
-     async getAllDepartments() {
+      // return all department
+      async getAllDepartments() {
        
         const query = util.promisify(this.db.query).bind(this.db);
         try {
-            const rows = await query('SELECT * FROM department');
+            const rows = await query('SELECT id, department_name AS name FROM department');
             return rows
         } catch {
             console.log("error viewing Departments")
         }
     }
-
 
     //Add a department
     async addDepartment() {
@@ -39,7 +38,7 @@ class Department {
         const query = util.promisify(this.db.query).bind(this.db);
         try {
             const rows = await query('INSERT INTO department SET ?', {department_name: this.name});
-            console.log(rows);
+            console.table(rows);
         } catch {
             console.log("error adding Departments")
         }
