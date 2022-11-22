@@ -1,0 +1,31 @@
+{
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "type": "module",
+  "name": "my-employee-tracker",
+  "description": "A command-line application to keep track of employees, managers, salaries and roles.",
+  "version": "1.0.0",
+  "main": "server.js",
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kay-Annn/My-Employee-Tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kay-Annn/My-Employee-Tracker/issues"
+  },
+  "homepage": "https://github.com/Kay-Annn/My-Employee-Tracker#readme",
+
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "inquirer": "^9.1.4",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.20",
+    "sequelize": "^6.25.6"
+  }
+}
