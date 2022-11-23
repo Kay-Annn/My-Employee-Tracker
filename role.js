@@ -17,10 +17,22 @@ class Roles extends Department {
     async viewAllRoles() {
         const query = util.promisify(this.db.query).bind(this.db);
         try {
-            const rows = await query('SELECT * FROM role');
+            const rows = await query('SELECT role.id, role.title, department.department_name AS department, role.salary FROM role INNER JOIN department ON role.department_id = department.id');
             console.table(rows);
+        } catch (err) {
+            console.log("error viewing Roles", err)
+        }
+    }
+
+    // return all roles
+    async getAllRoles() {
+
+        const query = util.promisify(this.db.query).bind(this.db);
+        try {
+            const rows = await query('SELECT id, title AS name FROM role');
+            return rows
         } catch {
-            console.log("error viewing Roles")
+            console.log("error viewing role")
         }
     }
 
@@ -30,7 +42,7 @@ class Roles extends Department {
         await this.addRolesQuestions()
         const query = util.promisify(this.db.query).bind(this.db);
         try {
-            const rows = await query('INSERT INTO role SET ?', { id: 25, title: this.title, salary: this.salary, department_id: this.department_id });
+            const rows = await query('INSERT INTO role SET ?', { title: this.title, salary: this.salary, department_id: this.department_id });
         } catch {
             console.log("error adding Role")
         }
