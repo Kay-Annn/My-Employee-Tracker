@@ -13,7 +13,7 @@ class Department {
        
         const query = util.promisify(this.db.query).bind(this.db);
         try {
-            const rows = await query('SELECT * FROM department');
+            const rows = await query('SELECT id, department_name AS name FROM department');
             console.table(rows);
         } catch {
             console.log("error viewing Departments")
