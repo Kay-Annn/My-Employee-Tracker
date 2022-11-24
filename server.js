@@ -1,6 +1,8 @@
 import express from 'express';
 import inquirer from 'inquirer';
 import mysql from 'mysql2';
+import * as dotenv from 'dotenv'
+dotenv.config();
 import cTable from 'console.table';
 import Department from './department.js';
 import Roles from './role.js';
@@ -8,7 +10,6 @@ import Employees from './employee.js';
 
 const PORT = process.env.PORT || 3000;
 const app = express();
-
 
 // Express middleware
 app.use(express.urlencoded({ extended: false }));
@@ -18,10 +19,10 @@ const db = mysql.createConnection(
   {
     host: 'localhost',
     // MySQL username,
-    user: 'root',
+    user: process.env.DB_USER,
     // TODO: Add MySQL password
-    password: 'add your SQL password',
-    database: 'employeetracker_db'
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
   },
   console.log(`Connected to the employeetracker_db database.`)
 );
@@ -77,11 +78,15 @@ async function showMenu() {
     showMenu()
   }
 
+  if (mainMenuInfo.Task === "Update Employee Role") {
+    await employee.updateEmployeeRole()
+    showMenu()
+  }
+
 }
 showMenu()
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-  
 });
 

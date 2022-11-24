@@ -14,6 +14,7 @@ class Employees extends Roles {
         this.department = "";
         this.salary = "";
         this.manager_id = "";
+        this.selectedEmployee = "";
         this.db = db;
 
     }
@@ -52,8 +53,7 @@ class Employees extends Roles {
         await this.addEmployeesQuestions()
         const query = util.promisify(this.db.query).bind(this.db);
         try {
-            const rows = await query('INSERT INTO employee SET ?', { first_name: this.first_name, last_name: this.last_name, role_id: this.role_id, manager_id: this.manager_id });
-            console.table(rows);
+            const rows = await query('INSERT INTO employee SET ?', { first_name: this.first_name, last_name: this.last_name, role_id: this.role_id, manager_id: this.manager_id});
         } catch (err) {
             console.log("error adding Employee", err)
         }
@@ -99,9 +99,63 @@ class Employees extends Roles {
         this.manager_id = selectedManagerId[0].id
 
     }
+
+
+    // return all employees
+    async getAllEmployees() {
+
+        const query = util.promisify(this.db.query).bind(this.db);
+        try {
+            const rows = await query('SELECT id, first_name AS name FROM employee');
+            return rows
+        } catch {
+            console.log("error viewing employees")
+        }
+    }
+
+    // Update an Employee
+
+      async updateEmployeeRole() {
+        await this.addRoleQuestions()
+        const query = util.promisify(this.db.query).bind(this.db);
+        try {
+            const rows = await query(`UPDATE employee SET role_id = ${this.role_id} WHERE id = ${this.selectedEmployee}`)  
+        } catch (err) {
+            console.log("error adding Employee", err)
+        }
+    }
+
+    async addRoleQuestions() {
+        const roleListForQuestions = await this.getAllRoles()
+        const employeeListForQuestions = await this.getAllEmployees()
+        
+        const roleQuestion = [
+
+            {
+                type: 'list',
+                message: 'Which employee would you like to update?',
+                choices: employeeListForQuestions,
+                name: "employee"
+            },
+
+            {
+                type: 'list',
+                message: 'What is the new role employees role?',
+                choices: roleListForQuestions,
+                name: "role_id"
+            },
+        ]
+
+        const employeeRole = await inquirer.prompt(roleQuestion)
+        const employeeBeingUpdated = employeeListForQuestions.filter(theEmployee => theEmployee.name === employeeRole.employee)
+        this.selectedEmployee = employeeBeingUpdated[0].id
+        const selectedIDForRole = roleListForQuestions.filter(theRole => theRole.name === employeeRole.role_id)
+        this.role_id = selectedIDForRole[0].id
+    }
 }
 
 export default Employees;
 
 
 
+ 
