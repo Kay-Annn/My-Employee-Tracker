@@ -15,6 +15,8 @@
 ## Description:
 This is a CLI application that allows a user to view employees, add an employee, update an employee's role, add a role, view all roles, add a department and view all departments. 
 
+![image](https://user-images.githubusercontent.com/56706010/203691873-8233fdaf-327e-4c5a-a1db-c2f26495c22b.png)
+
 ## Installation:
 You can install this project by copying the code in the GitHub repo. 
 
