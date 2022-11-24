@@ -38,7 +38,6 @@ class Department {
         const query = util.promisify(this.db.query).bind(this.db);
         try {
             const rows = await query('INSERT INTO department SET ?', {department_name: this.name});
-            console.table(rows);
         } catch {
             console.log("error adding Departments")
         }
