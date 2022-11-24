@@ -17,6 +17,8 @@ This is a CLI application that allows a user to view employees, add an employee,
 
 ![image](https://user-images.githubusercontent.com/56706010/203691873-8233fdaf-327e-4c5a-a1db-c2f26495c22b.png)
 
+Walkthrough Video: https://watch.screencastify.com/v/73WeJfyHTvOuhezQfthK
+
 ## Installation:
 You can install this project by copying the code in the GitHub repo. 
 
